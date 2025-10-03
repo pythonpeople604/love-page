@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Love Letter for My Bachaa</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      color: #fff;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2em;
+      color: #fff;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+    }
+
+    /* Love Letter Section */
+    .love-letter {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 90%;
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      border: none;
+      padding: 15px;
+      font-size: 16px;
+      resize: none;
+      font-family: inherit;
+      outline: none;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      background: #ff4e50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #fc6767;
+    }
+
+    .display-letter {
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.5em;
+      color: #fff;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      color: #ff4e50;
+      font-size: 20px;
+      animation: float 6s linear infinite;
+      opacity: 0.8;
+      z-index: -1;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+
+    /* Gallery Slider */
+    .slider {
+      margin: 30px auto;
+      max-width: 95%;
+      position: relative;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slides img {
+      width: 100%;
+      border-radius: 15px;
+      flex-shrink: 0;
+    }
+
+    /* Navigation buttons */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.4);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+  </style>
+</head>
+<body>
+  <h1>💖 My Love Letter For you My Darlingg 💖</h1>
+
+  <div class="love-letter">
+    <textarea id="letterInput" placeholder="Dear Bachhaa/baby/my babuu,
+    i know i have been not a good boyfriend but i love you so much, i only want u in my life tere bina ajeeb lagta hai meko boht.
+    tune meko boht maaf kara hai and i look up to you because tune bhot jhela and still you're with me. you're the best thing 
+    happened for me in this life. chahe kitna bhi ukhad lu but being with you for my life will be the greatest thing for me.
+    i love you foreverr💖💖💖, ek hi zindagi hai isme teko boht pyaar karungaa."></textarea>
+    <br>
+    <button onclick="showLetter()">Send Love</button>
+    <div class="display-letter" id="displayLetter"></div>
+  </div>
+
+  <!-- Gallery Slider -->
+  <div class="slider" id="slider">
+    <div class="slides" id="slides">
+      <img src="image.1.jpg" alt="Slide 1">
+      <img src="IMG-20250208-WA0154.jpg" alt="Slide 2">
+    </div>
+    <button class="nav-btn prev" onclick="prevSlide()">❮</button>
+    <button class="nav-btn next" onclick="nextSlide()">❯</button>
+  </div>
+
+  <!-- Hearts floating + slider logic -->
+  <script>
+    function showLetter() {
+      const text = document.getElementById("letterInput").value;
+      document.getElementById("displayLetter").innerHTML = text ? text : "You didn’t write anything yet 💌";
+    }
+
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = Math.random() * 20 + 15 + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 6000);
+    }
+    setInterval(createHeart, 600);
+
+    // Slider
+    let index = 0;
+    const slides = document.getElementById("slides");
+    const totalSlides = slides.children.length;
+
+    function showSlide(i) {
+      index = (i + totalSlides) % totalSlides;
+      slides.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    function nextSlide() { showSlide(index + 1); }
+    function prevSlide() { showSlide(index - 1); }
+
+    // Swipe gesture support
+    let startX = 0;
+    const slider = document.getElementById("slider");
+
+    slider.addEventListener("touchstart", e => {
+      startX = e.touches[0].clientX;
+    });
+
+    slider.addEventListener("touchend", e => {
+      const endX = e.changedTouches[0].clientX;
+      if (startX - endX > 50) nextSlide();   // swipe left
+      if (endX - startX > 50) prevSlide();   // swipe right
+    });
+  </script>
+</body>
+</html>
